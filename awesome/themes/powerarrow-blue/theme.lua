@@ -11,6 +11,8 @@ local awful = require("awful")
 local wibox = require("wibox")
 local dpi   = require("beautiful.xresources").apply_dpi
 local spotify_widget = require("../awesome-wm-widgets.spotify-widget.spotify")
+local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+local weather_widget = require("awesome-wm-widgets.weather-widget.weather")
 
 local math, string, os = math, string, os
 local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
@@ -25,8 +27,9 @@ theme.red                                       = "#cc241d"
 theme.orange                                    = "#fe8019"
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-blue"
 theme.wallpaper                                 = theme.dir .. "/wallpaper.jpg"
-theme.font                                      = "Noto Sans Regular 13"
-theme.taglist_font                              = "Noto Sans Regular 13"
+--theme.font                                      = "Noto Sans Regular 13"
+theme.font                                      = "Carter One 13"
+theme.taglist_font                              = "Carter One 13"
 theme.fg_normal                                 = "#ebdbb2"
 theme.fg_focus                                  = "#889FA7"
 theme.fg_urgent                                 = "#b74822"
@@ -130,6 +133,15 @@ theme.cal = lain.widget.cal({
     }
 })
 
+mytextclock = wibox.widget.textclock("%a %d %b %R:%S", 1)
+-- default
+local cw = calendar_widget({
+    placement = 'top_right'
+})
+mytextclock:connect_signal("button::press", 
+    function(_, _, _, button)
+        if button == 1 then cw.toggle() end
+    end)
 
 
 -- Taskwarrior
@@ -258,6 +270,7 @@ theme.weather = lain.widget.weather({
     end
 })
 
+
 -- / fs
 local fsicon = wibox.widget.imagebox(theme.widget_hdd)
 --commented because it needs Gio/Glib >= 2.54
@@ -311,6 +324,18 @@ theme.volume = lain.widget.alsa({
         widget:set_markup(markup.font(theme.font, " " .. volume_now.level .. "% "))
     end
 })
+
+local my_weather = weather_widget({
+    api_key='24c4a3f01489dd5e8ea4af16ee9b68b8',
+    coordinates = {46.0511, 14.5051},
+    time_format_12h = false,
+    units = 'metric',
+    both_units_widget = false,
+    font_name = 'Carter One',
+    show_hourly_forecast = true,
+    show_daily_forecast = true,
+})
+
 
 -- Net
 local neticon = wibox.widget.imagebox(theme.widget_net)
@@ -399,6 +424,9 @@ function theme.at_screen_connect(s)
                 may_length = 140,
                 show_tooltip = true
             }), dpi(8), dpi(8)),
+
+
+            awful.widget.watch('checkupdates | wc -l', 60),
             spr,
         },
         s.mytasklist, -- Middle widget
@@ -430,11 +458,11 @@ function theme.at_screen_connect(s)
             arrow(theme.yellow, theme.aqua),
             wibox.container.background(wibox.container.margin(wibox.widget { fsicon, theme.fs.widget, layout = wibox.layout.align.horizontal }, dpi(4), dpi(4)), theme.aqua),
             arrow(theme.aqua, theme.red),
-            wibox.container.background(wibox.container.margin(wibox.widget { weathericon, theme.weather.widget, layout = wibox.layout.align.horizontal }, dpi(3), dpi(3)), theme.red),
+            wibox.container.background(wibox.container.margin(wibox.widget { nil, my_weather, layout = wibox.layout.align.horizontal }, dpi(3), dpi(3)), theme.red),
             arrow(theme.red, theme.orange),
             wibox.container.background(wibox.container.margin(wibox.widget { nil, neticon, net.widget, layout = wibox.layout.align.horizontal }, dpi(3), dpi(3)), theme.orange),
             arrow(theme.orange, theme.green),
-            wibox.container.background(wibox.container.margin(clock, dpi(4), dpi(8)), theme.green),
+            wibox.container.background(wibox.container.margin(mytextclock, dpi(4), dpi(8)), theme.green),
             arrow(theme.green, "alpha"),
             --]]
             wibox.widget.systray(),
