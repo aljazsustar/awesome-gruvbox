@@ -10,5 +10,15 @@ cd .screenlayout || mkdir .screenlayout && cd .screenlayout
 
 sudo chmod +x layout.sh
 
+echo "Cloning GitHub repo"
+
+#check if git is installed
+sudo pacman -S git
+git clone https://github.com/aljazsustar/awesome-gruvbox.git
+cd awesome-gruvbox
 
 
+#add awesome-wm-widgets, spicetify-cli, spicetify-themes, rofi-themes, 
+echo "Copying config files"
+cp alacritty ~/.config/ && cp awesome ~/.config/ && copy .Xresources ../ && copy .zshrc ../ || echo "Failed to copy config files"
+echo "Installing awesome-wm widgets"
