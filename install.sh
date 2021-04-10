@@ -77,6 +77,9 @@ git clone --depth=1 https://github.com/adi1090x/rofi.git || echo "Failed to clon
 cd rofi || exit 1
 sudo chmod +x setup .sh
 ./setup.sh
+cd ~/awesome-gruvbox
+cp launcher.sh ~/.config/rofi/launchers/misc/.
+cp powermenu.sh ~/.config/rofi/applets/android/.
 cd || exit 1
 
 echo "Downloading wallpapers"
