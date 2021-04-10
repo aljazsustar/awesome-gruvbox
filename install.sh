@@ -18,6 +18,7 @@ echo "Creating xrandr config"
 echo "Is this the laptop? [y/n]"
 read isLaptop
 
+cd ~
 cd .screenlayout || mkdir .screenlayout && cd .screenlayout
 if [[ $isLaptop == "y" ]] || [[ -z $isLaptop ]] 
 then
@@ -33,7 +34,7 @@ cd || exit 1
 echo "Installing extra software"
 
 yay -S intellij-idea-ultimate-edition pycharm-ultimate clion webstorm oh-my-zsh-git
-sudo pacman -S jdk-openjdk python-pip spotify alacritty nitrogen visual-studio-code-bin zsh brave-bin
+sudo pacman -S jdk-openjdk python-pip spotify alacritty nitrogen visual-studio-code-bin zsh brave-bin rofi
 
 cd awesome-gruvbox || exit 1
 
@@ -44,6 +45,9 @@ cd || exit 1
 echo "Installing awesome-wm widgets"
 cd ~/.config/awesome && git clone https://github.com/streetturtle/awesome-wm-widgets.git || echo "Failed to install awesome-wm-widgtes" 
 cd ~
+
+#spotify must be ran for spicetify to work
+spotify &
 
 echo "Installing spicetify-cli"
 yay -S spicetify-cli 
