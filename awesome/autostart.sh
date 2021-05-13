@@ -10,7 +10,7 @@ run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
 #run xrandr --output VGA-1 --primary --mode 1360x768 --pos 0x0 --rotate normal
 #run xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
 run nm-applet
-run picom -b --config  home/aljaz/.config/awesome/picom.conf
+run picom -b --config  /home/aljaz/.config/awesome/picom.conf
 run "$HOME"/.screenlayout/layout1.sh
 run flameshot
 #run caffeine
