@@ -1146,10 +1146,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- }}}
 
+beautiful.systray_icon_spacing = 5;
 -- Autostart applications
 awful.spawn.with_shell("~/.config/awesome/autostart.sh")
-awful.spawn.with_shell("picom -b --config  $HOME/.config/awesome/picom.conf")
-awful.spawn.with_shell("~/.screenlayout/layout.sh")
-awful.spawn.with_shell("nm-applet")
-awful.spawn.with_shell("nitrogen --restore")
-awful.spawn.with_shell("flameshot")

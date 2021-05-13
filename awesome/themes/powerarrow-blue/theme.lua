@@ -458,7 +458,7 @@ function theme.at_screen_connect(s)
             arrow(theme.yellow, theme.aqua),
             wibox.container.background(wibox.container.margin(wibox.widget { fsicon, theme.fs.widget, layout = wibox.layout.align.horizontal }, dpi(4), dpi(4)), theme.aqua),
             arrow(theme.aqua, theme.red),
-            wibox.container.background(wibox.container.margin(wibox.widget { nil, my_weather, layout = wibox.layout.align.horizontal }, dpi(3), dpi(3)), theme.red),
+            wibox.container.background(wibox.container.margin(wibox.widget { baticon, bat, layout = wibox.layout.align.horizontal }, dpi(3), dpi(3)), theme.red),
             arrow(theme.red, theme.orange),
             wibox.container.background(wibox.container.margin(wibox.widget { nil, neticon, net.widget, layout = wibox.layout.align.horizontal }, dpi(3), dpi(3)), theme.orange),
             arrow(theme.orange, theme.green),
@@ -469,5 +469,6 @@ function theme.at_screen_connect(s)
         },
     }
 end
+
 
 return theme
