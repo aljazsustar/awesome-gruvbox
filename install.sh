@@ -15,12 +15,12 @@ fi
 sudo systemctl enable lightdm || sudo systemctl enable sddm
 
 echo "Creating xrandr config"
-echo "Is this the laptop? [y/n]"
+echo "Is this the laptop? [y/N]"
 read isLaptop
 
 cd ~
 cd .screenlayout || mkdir .screenlayout && cd .screenlayout
-if [[ $isLaptop == "y" ]] || [[ -z $isLaptop ]] 
+if [[ $isLaptop == "y" ]]
 then
     printf "#!/bin/sh\n xrandr -s 1920x1080" >> layout1.sh
 else
@@ -33,7 +33,7 @@ cd || exit 1
 
 echo "Installing extra software"
 
-yay -S intellij-idea-ultimate-edition pycharm-ultimate clion webstorm oh-my-zsh-git
+yay -S intellij-idea-ultimate-edition pycharm-professional clion webstorm oh-my-zsh-git
 sudo pacman -S jdk-openjdk python-pip spotify alacritty nitrogen visual-studio-code-bin zsh brave-bin rofi
 
 cd awesome-gruvbox || exit 1
@@ -46,31 +46,37 @@ echo "Installing awesome-wm widgets"
 cd ~/.config/awesome && git clone https://github.com/streetturtle/awesome-wm-widgets.git || echo "Failed to install awesome-wm-widgtes" 
 cd ~
 
-#spotify must be ran for spicetify to work
-spotify &
+echo "Do you want to install spicetify? [y/N]"
+read installSpicetify
 
-echo "Installing spicetify-cli"
-yay -S spicetify-cli 
-sudo chmod a+wr /opt/spotify
-sudo chmod a+wr /opt/spotify/Apps -R
-spicetify && spicetify backup apply enable-devtool
+if [[ $installSpicetify == "y" ]]
+then
+    #spotify must be ran for spicetify to work
+    spotify &
 
-echo "Installing spicetify-themes"
-cd ~/.config || exit 1
-git clone https://github.com/morpheusthewhite/spicetify-themes.git
-cd spicetify-themes || exit 1
-cp -r * ~/.config/spicetify/Themes
-cd || exit 1
+    echo "Installing spicetify-cli"
+    yay -S spicetify-cli
+    sudo chmod a+wr /opt/spotify
+    sudo chmod a+wr /opt/spotify/Apps -R
+    spicetify && spicetify backup apply enable-devtool
 
-echo "Applying Gruvbox theme to Spotify"
-cd "$(dirname "$(spicetify -c)")/Themes/Dribbblish" || exit 1
-mkdir -p ../../Extensions
-cp dribbblish.js ../../Extensions/.
-spicetify config extensions dribbblish.js
-spicetify config current_theme Dribbblish color_scheme gruvbox
-spicetify config inject_css 1 replace_colors 1 overwrite_assets 1
-spicetify apply
-cd || exit 1
+    echo "Installing spicetify-themes"
+    cd ~/.config || exit 1
+    git clone https://github.com/morpheusthewhite/spicetify-themes.git
+    cd spicetify-themes || exit 1
+    cp -r * ~/.config/spicetify/Themes
+    cd || exit 1
+
+    echo "Applying Gruvbox theme to Spotify"
+    cd "$(dirname "$(spicetify -c)")/Themes/Dribbblish" || exit 1
+    mkdir -p ../../Extensions
+    cp dribbblish.js ../../Extensions/.
+    spicetify config extensions dribbblish.js
+    spicetify config current_theme Dribbblish color_scheme gruvbox
+    spicetify config inject_css 1 replace_colors 1 overwrite_assets 1
+    spicetify apply
+    cd || exit 1
+fi
 
 echo "Installing rofi themes"
 git clone --depth=1 https://github.com/adi1090x/rofi.git || echo "Failed to clone the repo"
@@ -88,3 +94,8 @@ git clone "https://gitlab.com/dwt1/wallpapers.git"
 
 echo "Changing default shell to zsh"
 chsh -s /bin/zsh
+
+echo "Copying zsh theme"
+sudo cp macos.zsh-theme /usr/share/oh-my-zsh/themes
+
+echo "Logout for changes to take effect"
