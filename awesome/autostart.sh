@@ -21,10 +21,11 @@ run pamac-tray
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #run numlockx on
 #run volumeicon
-run nitrogen --restore
+#run nitrogen --restore
 run conky -c $HOME/.config/awesome/system-overview
 #you can set wallpapers in themes as well
 #feh --bg-fill /usr/share/backgrounds/arcolinux/arco-wallpaper.jpg &
+feh --bg-scale --randomize home/aljaz/Pictures/wallpapers
 #run applications from startup
 #run firefox
 #run atom
