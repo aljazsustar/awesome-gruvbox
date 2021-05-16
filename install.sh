@@ -34,7 +34,7 @@ cd || exit 1
 echo "Installing extra software"
 
 yay -S intellij-idea-ultimate-edition pycharm-professional clion webstorm oh-my-zsh-git
-sudo pacman -S jdk-openjdk python-pip spotify alacritty nitrogen visual-studio-code-bin zsh brave-bin rofi
+sudo pacman -S jdk-openjdk python-pip spotify alacritty nitrogen feh picom visual-studio-code-bin zsh brave-bin rofi lightdm-webkit2-greeter
 
 cd awesome-gruvbox || exit 1
 
@@ -78,14 +78,26 @@ then
     cd || exit 1
 fi
 
+echo "Installing lightdm theme"
+
+cd .config
+git clone https://github.com/lveteau/lightdm-webkit-modern-arch-theme.git
+sudo cp lightdm.conf /etc/lightdm/lightdm.conf
+sudo cp lightdm-webkit2-greeter.conf /etc/lightdm/lightdm-webkit2-greeter.conf
+cd
+
+echo "Changes will take effect after reboot"
+
+
 echo "Installing rofi themes"
 git clone --depth=1 https://github.com/adi1090x/rofi.git || echo "Failed to clone the repo"
 cd rofi || exit 1
 sudo chmod +x setup .sh
 ./setup.sh
 cd ~/awesome-gruvbox
-cp launcher.sh ~/.config/rofi/launchers/misc/.
-cp powermenu.sh ~/.config/rofi/applets/android/.
+cp launcher.sh /home/aljaz/.config/rofi/launchers/misc/
+cp powermenu.sh home/aljaz/.config/rofi/applets/android/
+cp colors.rasi /home/aljaz/rofi/applets/android
 cd || exit 1
 
 echo "Downloading wallpapers"
