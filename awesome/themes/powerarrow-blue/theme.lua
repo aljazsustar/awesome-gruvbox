@@ -402,9 +402,45 @@ function theme.at_screen_connect(s)
     s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, awful.util.taglist_buttons)
 
     -- Create a tasklist widget
-    --s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons)
 
-    -- Create the wibox
+    s.mytasklist = awful.widget.tasklist {
+        screen   = s,
+        filter   = awful.widget.tasklist.filter.currenttags,
+        buttons  = tasklist_buttons,
+        layout   = {
+
+            spacing = dpi(10),
+            layout  = wibox.layout.fixed.horizontal
+        },
+        -- Notice that there is *NO* wibox.wibox prefix, it is a template,
+        -- not a widget instance.
+        widget_template = {
+            {
+                wibox.widget.base.make_widget(),
+                forced_height = 2,
+                bg = theme.yellow,
+                widget        = wibox.container.background,
+            },
+            {
+                {
+                    id = 'clienticon',
+                    widget = awful.widget.clienticon,
+                },
+                top = 3,
+                bottom = 3,
+                widget  = wibox.container.margin
+            },
+            nil,
+            create_callback = function(self, c, index, objects) --luacheck: no unused args
+                self:get_children_by_id('clienticon')[1].client = c
+            end,
+            layout = wibox.layout.align.vertical,
+        },
+    }
+
+
+    --s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, awful.util.tasklist_buttons)
+       -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(30), bg = theme.bg_normal, fg = theme.fg_normal})
 
     -- Add widgets to the wibox
@@ -412,24 +448,10 @@ function theme.at_screen_connect(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            --spr,
             s.mytaglist,
-            s.mypromptbox,
-            wibox.container.margin(spotify_widget({
-                font = 'Ubuntu Mono 13',
-                play_icon = '/usr/share/icons/Papirus-Light/24x24/categories/spotify.svg',
-                pause_icon = '/usr/share/icons/Papirus-Dark/24x24/panel/spotify-indicator.svg',
-                dim_when_paused = true,
-                dim_opacity = 0.5,
-                may_length = 140,
-                show_tooltip = true
-            }), dpi(8), dpi(8)),
-
-
-            awful.widget.watch('checkupdates | wc -l', 60),
             spr,
         },
-        s.mytasklist, -- Middle widget
+        wibox.container.margin(s.mytasklist, dpi(25), dpi(0)),
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             --[[ using shapes
@@ -463,9 +485,9 @@ function theme.at_screen_connect(s)
             wibox.container.background(wibox.container.margin(wibox.widget { nil, neticon, net.widget, layout = wibox.layout.align.horizontal }, dpi(3), dpi(3)), theme.orange),
             arrow(theme.orange, theme.green),
             wibox.container.background(wibox.container.margin(mytextclock, dpi(4), dpi(8)), theme.green),
-            arrow(theme.green, "alpha"),
-            --]]
+            arrow(theme.green, 'alpha'),
             wibox.widget.systray(),
+            --]]
         },
     }
 end

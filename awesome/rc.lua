@@ -397,7 +397,7 @@ globalkeys = my_table.join(
         {description = nitrogen, group = "alt+ctrl"}),
     awful.key({ modkey1, altkey   }, "k", function() awful.util.spawn( "arcolinux-logout" ) end,
         {description = scrlocker, group = "alt+ctrl"}),
-    awful.key({ modkey1, altkey   }, "l", function() awful.util.spawn( "arcolinux-logout" ) end,
+    awful.key({ modkey1, altkey   }, "l", function() awful.util.spawn( "light-locker-command -l" ) end,
         {description = scrlocker, group = "alt+ctrl"}),
     awful.key({ modkey1, altkey   }, "o", function() awful.spawn.with_shell("$HOME/.config/awesome/scripts/picom-toggle.sh") end,
         {description = "Picom toggle", group = "alt+ctrl"}),
@@ -916,6 +916,9 @@ awful.rules.rules = {
     -- Titlebars
     { rule_any = { type = { "dialog", "normal" } },
       properties = { titlebars_enabled = false } },
+
+    { rule = {class = 'spotify'},
+      properties = {screen = 1, tag = awful.util.tagnames[9]}},
           -- Set applications to always map on the tag 2 on screen 1.
     --{ rule = { class = "Subl3" },
         --properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = true  } },

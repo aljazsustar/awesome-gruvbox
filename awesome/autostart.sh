@@ -9,10 +9,11 @@ function run {
 run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
 #run xrandr --output VGA-1 --primary --mode 1360x768 --pos 0x0 --rotate normal
 #run xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
-run nm-applet
-run picom -b --config  /home/aljaz/.config/awesome/picom.conf
-run "$HOME"/.screenlayout/layout1.sh
-run flameshot
+run nm-applet &
+run picom -b --config  /home/aljaz/.config/awesome/picom.conf &
+run "$HOME"/.screenlayout/layout1.sh &
+run flameshot &
+run light-locker &
 #run caffeine
 run pamac-tray
 #run variety
@@ -25,7 +26,7 @@ run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 run conky -c HOME/.config/awesome/system-overview
 #you can set wallpapers in themes as well
 #feh --bg-fill /usr/share/backgrounds/arcolinux/arco-wallpaper.jpg &
-feh --bg-scale --randomize /home/aljaz/Pictures/wallpapers
+feh --bg-scale --randomize /home/aljaz/Pictures/wallpapers &
 #run applications from startup
 #run firefox
 #run atom
