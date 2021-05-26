@@ -119,8 +119,8 @@ local browser1          = "vivaldi-stable"
 local browser2          = "firefox"
 local browser3          = "chromium -no-default-browser-check"
 local editor            = os.getenv("EDITOR") or "nano"
-local editorgui         = "atom"
-local filemanager       = "thunar"
+local editorgui         = "code"
+local filemanager       = "pcmanfm"
 local mailclient        = "evolution"
 local mediaplayer       = "spotify"
 local terminal          = "alacritty"
@@ -917,9 +917,25 @@ awful.rules.rules = {
     { rule_any = { type = { "dialog", "normal" } },
       properties = { titlebars_enabled = false } },
 
-    { rule = {class = 'spotify'},
-      properties = {screen = 1, tag = awful.util.tagnames[9]}},
-          -- Set applications to always map on the tag 2 on screen 1.
+    { rule_any = { class = { "spotify", "Spotify" } },
+      properties = {screen = 1, tag = "9", switchtotag = false}},
+
+    { rule = { class = "Brave-browser" },
+      properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = true }  
+    },
+
+     { rule = { class = "Emacs" },
+      properties = { screen = 1, tag = awful.util.tagnames[4], switchtotag = true, callback =  function (c)
+            c.fullscreen = not c.fullscreen
+            c:raise()
+        end,
+        }  
+    },
+
+     { rule = { class = "discord" },
+      properties = { screen = 2, tag = awful.util.tagnames[1], switchtotag = true }  
+    },
+     -- Set applications to always map on the tag 2 on screen 1.
     --{ rule = { class = "Subl3" },
         --properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = true  } },
 
@@ -989,14 +1005,11 @@ awful.rules.rules = {
     { rule = { class = "inkscape" },
           properties = { maximized = true } },
 
-    { rule = { class = mediaplayer },
-          properties = { maximized = true } },
-
     { rule = { class = "Vlc" },
           properties = { maximized = true } },
 
-    { rule = { class = "VirtualBox Manager" },
-          properties = { maximized = true } },
+    { rule = { class = "Virt-manager" },
+          properties = { screen = 2, tag = awful.util.tagnames[9], switchtotag = true } },
 
     { rule = { class = "VirtualBox Machine" },
           properties = { maximized = true } },
