@@ -33,8 +33,11 @@ cd || exit 1
 
 echo "Installing extra software"
 
-yay -S intellij-idea-ultimate-edition pycharm-professional clion webstorm oh-my-zsh-git
-sudo pacman -S jdk-openjdk python-pip spotify alacritty nitrogen feh picom visual-studio-code-bin zsh brave-bin rofi lightdm-webkit2-greeter
+yay -S intellij-idea-ultimate-edition pycharm-professional clion webstorm oh-my-zsh-git 
+sudo pacman -S jdk-openjdk python-pip spotify alacritty nitrogen feh picom visual-studio-code-bin zsh brave-bin rofi lightdm-webkit2-greeter luarocks
+
+echo "Installing awestore"
+sudo luarocks --lua-version 5.3 install awestore
 
 cd awesome-gruvbox || exit 1
 

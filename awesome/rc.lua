@@ -107,7 +107,6 @@ local chosen_theme = themes[3]
 
 local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme)
 beautiful.init(theme_path)
-
 -- modkey or mod4 = super key
 local modkey       = "Mod4"
 local altkey       = "Mod1"
@@ -225,6 +224,9 @@ lain.layout.cascade.tile.ncol          = 2
 
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
 -- }}}
+local bling = require("bling")
+local awestore = require("awestore")
+
 
 
 
@@ -299,7 +301,28 @@ root.buttons(my_table.join(
 ))
 -- }}}
 
+--Scratchpad
+local anim_y = awestore.tweened(1100, {
+    duration = 400,
+    easing = awestore.easing.cubic_in_out
+})
 
+local anim_x = awestore.tweened(1920, {
+    duration = 400,
+    easing = awestore.easing.cubic_in_out
+})
+
+local term_scratch = bling.module.scratchpad:new {
+    command = "xfce4-terminal",           -- How to spawn the scratchpad
+    rule = { instance = "xfce4-terminal" },                     -- The rule that the scratchpad will be searched by
+    sticky = true,                                    -- Whether the scratchpad should be sticky
+    autoclose = true,                                 -- Whether it should hide itself when losing focus
+    floating = true,                                  -- Whether it should be floating
+    geometry = {x=360, y=0, height=900, width=1200}, -- The geometry in a floating state
+    reapply = true,                                   -- Whether all those properties should be reapplied on every new opening of the scratchpad (MUST BE TRUE FOR ANIMATIONS)
+    dont_focus_before_close  = true,                 -- When set to true, the scratchpad will be closed by the toggle function regardless of whether its focused or not. When set to false, the toggle function will first bring the scratchpad into focus and only close it on a second call
+    awestore = {x = anim_x, y = anim_y}               -- Optional. This is how you can pass in the stores for animations. If you don't want animations, you can ignore this option.
+}
 
 -- {{{ Key bindings
 globalkeys = my_table.join(
@@ -321,7 +344,7 @@ globalkeys = my_table.join(
 
 
     -- super + ... function keys
-    awful.key({ modkey }, "F1", function () awful.util.spawn( browser1 ) end,
+    awful.key({ modkey }, "F1", function () term_scratch:toggle() end,
         {description = browser1, group = "function keys"}),
     awful.key({ modkey }, "F2", function () awful.util.spawn( editorgui ) end,
         {description = editorgui , group = "function keys" }),
@@ -700,10 +723,10 @@ globalkeys = my_table.join(
         end),
 
     --Media keys supported by vlc, spotify, audacious, xmm2, ...
-    --awful.key({}, "XF86AudioPlay", function() awful.util.spawn("playerctl play-pause", false) end),
-    --awful.key({}, "XF86AudioNext", function() awful.util.spawn("playerctl next", false) end),
-    --awful.key({}, "XF86AudioPrev", function() awful.util.spawn("playerctl previous", false) end),
-    --awful.key({}, "XF86AudioStop", function() awful.util.spawn("playerctl stop", false) end),
+    awful.key({ modkey, altkey }, "space", function() awful.util.spawn("playerctl play-pause", false) end),
+    awful.key({ modkey, altkey }, "Right", function() awful.util.spawn("playerctl next", false) end),
+    awful.key({ modkey, altkey }, "Left", function() awful.util.spawn("playerctl previous", false) end),
+    awful.key({}, "XF86AudioStop", function() awful.util.spawn("playerctl stop", false) end),
 
 --Media keys supported by mpd.
     awful.key({}, "XF86AudioPlay", function () awful.util.spawn("sp play") end),
@@ -917,8 +940,8 @@ awful.rules.rules = {
     { rule_any = { type = { "dialog", "normal" } },
       properties = { titlebars_enabled = false } },
 
-    { rule_any = { class = { "spotify", "Spotify" } },
-      properties = {screen = 1, tag = "9", switchtotag = false}},
+    { rule_any = { class = { mediaplayer } },
+      properties = {screen = 1, tag = awful.util.tagnames[9], switchtotag = false}},
 
     { rule = { class = "Brave-browser" },
       properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = true }  
