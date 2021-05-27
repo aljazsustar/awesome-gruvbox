@@ -2,9 +2,10 @@
 
 ### Installation
 
-`git clone --depth 1 https://github.com/aljazsustar/awesome-gruvbox`\
-`sudo chmod +x install.sh`\
-`./install.sh`\
+```bash
+git clone --depth 1 https://github.com/aljazsustar/awesome-gruvbox
+sudo chmod +x install.sh
+./install.sh```
 
 ### Credits
 
