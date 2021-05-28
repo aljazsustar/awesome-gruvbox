@@ -13,4 +13,5 @@ sudo chmod +x install.sh
 Repos my config is 'stolen' from:
 
 [Blink](https://github.com/BlingCorp/bling)\
-[Awesome copycats](https://github.com/lcpz/awesome-copycats)
+[Awesome copycats](https://github.com/lcpz/awesome-copycats)\
+[Doom Emacs](https://github.com/hlissner/doom-emacs)
