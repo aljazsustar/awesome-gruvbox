@@ -34,7 +34,7 @@ cd || exit 1
 echo "Installing extra software"
 
 yay -S intellij-idea-ultimate-edition pycharm-professional clion webstorm oh-my-zsh-git 
-sudo pacman -S jdk-openjdk python-pip spotify alacritty nitrogen feh picom visual-studio-code-bin zsh brave-bin rofi lightdm-webkit2-greeter luarocks
+sudo pacman -S jdk-openjdk python-pip spotify alacritty nitrogen feh picom visual-studio-code-bin zsh brave-bin rofi lightdm-webkit2-greeter luarocks emacs fd ripgrep
 
 echo "Installing awestore"
 sudo luarocks --lua-version 5.3 install awestore
@@ -48,6 +48,13 @@ cd || exit 1
 echo "Installing awesome-wm widgets"
 cd ~/.config/awesome && git clone https://github.com/streetturtle/awesome-wm-widgets.git || echo "Failed to install awesome-wm-widgtes" 
 cd ~
+
+echo "Installing Doom Emacs"
+git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+~/.emacs.d/bin/doom install
+
+cp awesome-gruvbox/init.el .doom.d/ && cp awesome-gruvbox/config.el .doom.d/
+~/.emacs.d/bin/doom sync
 
 echo "Do you want to install spicetify? [y/N]"
 read installSpicetify
