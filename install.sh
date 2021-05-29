@@ -12,29 +12,30 @@ if [[ -z $reboot ]] || [[ $reboot == "y" ]]; then
     reboot
 fi
 
-sudo systemctl enable lightdm || sudo systemctl enable sddm
 
 echo "Creating xrandr config"
 echo "Is this the laptop? [y/N]"
 read isLaptop
 
 cd ~
-cd .screenlayout || mkdir .screenlayout && cd .screenlayout
-if [[ $isLaptop == "y" ]]
-then
-    printf "#!/bin/sh\n xrandr -s 1920x1080" >> layout1.sh
-else
-    printf "#!/bin/sh\n xrandr --output DVI-D-0 --off --output HDMI-0 --mode 1920x1080 --pos 1920x0 --rotate right --output DP-0 --off --output DP-1 --off --output DP-2 --off --output DP-3 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-4 --off --output DP-5 --off" >> layout1.sh
-fi
+#cd .screenlayout || mkdir .screenlayout && cd .screenlayout
+#if [[ $isLaptop == "y" ]]
+#then
+#    printf "#!/bin/sh\n xrandr -s 1920x1080" >> layout1.sh
+#else
+#    printf "#!/bin/sh\n xrandr --output DVI-D-0 --off --output HDMI-0 --mode 1920x1080 --pos 1920x0 --rotate right --output DP-0 --off --output DP-1 --off --output DP-2 --off --output DP-3 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-4 --off --output DP-5 --off" >> layout1.sh
+#fi
 
-sudo chmod +x layout1.sh
-./layout1.sh
+#sudo chmod +x layout1.sh
+#./layout1.sh
 cd || exit 1
 
 echo "Installing extra software"
 
 yay -S intellij-idea-ultimate-edition pycharm-professional clion webstorm oh-my-zsh-git 
-sudo pacman -S jdk-openjdk python-pip spotify alacritty nitrogen feh picom visual-studio-code-bin zsh brave-bin rofi lightdm-webkit2-greeter luarocks emacs fd ripgrep
+sudo pacman -S jdk-openjdk python-pip spotify alacritty nitrogen feh picom visual-studio-code-bin zsh brave-bin rofi lightdm lightdm-webkit2-greeter luarocks emacs fd ripgrep
+
+sudo systemctl enable lightdm
 
 echo "Installing awestore"
 sudo luarocks --lua-version 5.3 install awestore
